@@ -1,39 +1,41 @@
 package model;
 
-import java.util.UUID;
-
+import java.util.HashSet;
+import java.util.Set;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
 //import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 
-
+@Entity
+@Table(name = "departamentos")
 public class Departamento {
-	UUID id;
-	String nombre;
-	Empleado empleado;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	private String nombre;
+	// Relación 1-N con Empleado, un departamento puede tener muchos empleados
+    @OneToMany
+	private Set<Empleado> empleado = new HashSet<>();
 	
-	//Al crear un nuevo objeto empleado se enlaza con este departamento 
-	//El metodo findDepartamento devuelve con este constructor
-	public Departamento(UUID id,String nombre) {
+	public Departamento(Integer id,String nombre) {
 		setId(id);
 		setNombre(nombre);
-		setEmpleado(null);
 	}
 	
-	//Al crear un nuevo departamento addDepartamento coge como parametro de entrada el objeto con este constructor
-	public Departamento(String nombre, Empleado empleado) {
-		setId(UUID.randomUUID());
-		setNombre(nombre);
-		setEmpleado(empleado);
+	public void addEmpleado(Empleado e) {
+		if (e.getDepartamento() != null) {
+			e.getDepartamento().getEmpleado().remove(e);
+		}
+		e.setDepartamento(this);
+		empleado.add(e);
 	}
 	
-	//Se usa para crear un nuevo objeto departamento sin tener que especificar el jefe
-	public Departamento(String nombre) {
-		setId(UUID.randomUUID());
-		setNombre(nombre);
-		setEmpleado(null);
+	public void removeEmpleado(Empleado e) {
+		e.setDepartamento(null);
+		empleado.remove(e);
 	}
-
 }
