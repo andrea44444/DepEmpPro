@@ -5,8 +5,11 @@
     
     <persistence-unit name="unidadDePersistencia">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        
         <class>model.Departamento</class>
         <class>model.Empleado</class>
+        <class>model.Proyecto</class>
+        
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
             <property name="hibernate.connection.url" value="jdbc:mariadb://172.31.16.1:3301/empresa2"/>

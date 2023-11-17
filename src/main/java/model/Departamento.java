@@ -5,17 +5,20 @@ import java.util.Set;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-//import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = "empleado")
 
 @Entity
 @Table(name = "departamentos")
 public class Departamento {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY )
 	private Integer id;
+	@Column(nullable = false)
 	private String nombre;
 	// Relación 1-N con Empleado, un departamento puede tener muchos empleados
     @OneToMany
