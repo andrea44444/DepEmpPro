@@ -20,8 +20,9 @@ public class Departamento {
 	private Integer id;
 	@Column(nullable = false)
 	private String nombre;
+	
 	// Relación 1-N con Empleado, un departamento puede tener muchos empleados
-    @OneToMany
+    @OneToMany(mappedBy="departamento")
 	private Set<Empleado> empleado = new HashSet<>();
 	
 	public Departamento(Integer id,String nombre) {
@@ -30,15 +31,9 @@ public class Departamento {
 	}
 	
 	public void addEmpleado(Empleado e) {
-		if (e.getDepartamento() != null) {
-			e.getDepartamento().getEmpleado().remove(e);
-		}
+		this.getEmpleado().add(e);
 		e.setDepartamento(this);
-		empleado.add(e);
 	}
 	
-	public void removeEmpleado(Empleado e) {
-		e.setDepartamento(null);
-		empleado.remove(e);
-	}
+
 }

@@ -14,11 +14,13 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "empleado")
 
 @Entity
 @Table(name = "proyectos")
@@ -37,4 +39,13 @@ public class Proyecto {
 	    )
 	private Set<Empleado> empleado = new HashSet<>();
 
+	public Proyecto(Integer id, String nombre) {
+		setId(id);
+		setNombre(nombre);
+	}
+	
+	public void addEmpleado(Empleado e) {
+		 e.getProyecto().add(this);
+		 this.getEmpleado().add(e);
+	}
 }

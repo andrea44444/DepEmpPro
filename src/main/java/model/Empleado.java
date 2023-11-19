@@ -27,8 +27,8 @@ public class Empleado {
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private LocalDate fNacimiento;
+	
 	@ManyToOne
-	@JoinColumn(name = "departamento_id") // Nombre de la columna en la tabla empleados que hace referencia al departamento
 	private Departamento departamento;
 	
 	@ManyToMany
@@ -44,5 +44,15 @@ public class Empleado {
 		setNombre(nombre);
 		setSalario(salario);
 		setFNacimiento (fNacimiento);
+	}
+	
+	public void addDepartamento(Departamento d) {
+		this.setDepartamento(d);
+		d.getEmpleado().add(this);
+	}
+	
+	public void addProyectos(Proyecto p) {
+		this.getProyecto().add(p);
+		p.getEmpleado().add(this);
 	}
 }

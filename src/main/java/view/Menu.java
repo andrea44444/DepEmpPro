@@ -17,14 +17,14 @@ public class Menu {
 		try {
 	        // Nuevo empleado
 	        Empleado empleado = new Empleado();
-	        empleado.setNombre("Andrea");
-	        LocalDate fecha = LocalDate.parse("2003-10-21");
+	        empleado.setNombre("Cesar");
+	        LocalDate fecha = LocalDate.parse("2003-06-06");
 	        empleado.setFNacimiento(fecha);
-	        empleado.setSalario(1300.0);
+	        empleado.setSalario(1200.0);
 	        
 	        //Nuevo proyecto
 	        Proyecto proyecto = new Proyecto();
-	        proyecto.setNombre("Proyecto nutria");
+	        proyecto.setNombre("Proyecto tortuga");
 	        
 	        //Nuevo departamento
 	        Departamento departamento = new Departamento();
@@ -40,6 +40,7 @@ public class Menu {
 	        em.persist(proyecto);
 	        
 	        departamento.addEmpleado(empleado);
+	        proyecto.addEmpleado(empleado);
 	        
 	        em.persist(departamento);
 	
