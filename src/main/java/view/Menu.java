@@ -1,6 +1,5 @@
 package view;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import controlador.Controlador;
@@ -10,35 +9,44 @@ import jakarta.persistence.EntityTransaction;
 import model.Departamento;
 import model.Empleado;
 import model.Proyecto;
-import view.MetodosCRUD;
 
 public class Menu {
 
 	public static void main(String[] args) {
-		// EntityManager em = Controlador.getEntityManager();
-		// EntityTransaction transaction = em.getTransaction();
-
-		List<String> opciones = List
-				.of("1. Modificar empleado\n" + "2. Modificar departamento\n" + "3. Modificar proyecto\n" + "4. Salir");
-		while (true) {
-			System.out.println(opciones);
-			switch (IO.readInt()) {
-			case 1:
-				menu(1);
-				break;
-			case 2:
-				menu(2);
-				break;
-			case 3:
-				menu(3);
-				break;
-			case 4:
-				return;
+		EntityManager em = Controlador.getEntityManager();
+		EntityTransaction transaction = em.getTransaction();
+		
+		try {
+			List<String> opciones = List
+					.of("1. Modificar empleado\n" + "2. Modificar departamento\n" + "3. Modificar proyecto\n" + "4. Salir");
+			while (true) {
+				System.out.println(opciones);
+				switch (IO.readInt()) {
+				case 1:
+					menu(1,transaction, em);
+					break;
+				case 2:
+					menu(2,transaction, em);
+					break;
+				case 3:
+					menu(3,transaction, em);
+					break;
+				case 4:
+					return;
+				}
 			}
+		} catch(Exception e) {
+			if (transaction.isActive()) {
+	            transaction.rollback();
+	        }
+	        e.printStackTrace();
+		} finally {
+			em.close(); 
+			Controlador.closeEntityManagerFactory();
 		}
 	}
 
-	private static void menu(int tipo) {
+	private static void menu(int tipo, EntityTransaction transaction, EntityManager em) {
 		List<String> opciones = List.of("1. Insertar\n" + "2. Modificar\n" + "3. Eliminar\n" + "4. Buscar por codigo\n"
 				+ "5. Buscar por nombre\n" + "6. Salir\n");
 		while (true) {
@@ -47,7 +55,10 @@ public class Menu {
 			case 1:
 				switch (tipo) {
 				case 1:
-					MetodosCRUD.insertarEmpleado();
+					transaction.begin();
+					Empleado empleado = MetodosCRUD.insertarEmpleado();
+					em.persist(empleado);
+					transaction.commit();
 					break;
 				case 2:
 					MetodosCRUD.insertarDepartamento();

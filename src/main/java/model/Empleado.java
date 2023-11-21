@@ -42,8 +42,7 @@ public class Empleado {
 		)
 	private Set<Proyecto> proyecto = new HashSet<>();
 	
-	public Empleado(Integer id, String nombre,Double salario, LocalDate fNacimiento) {
-		setId(id);
+	public Empleado(String nombre,Double salario, LocalDate fNacimiento) {
 		setNombre(nombre);
 		setSalario(salario);
 		setFNacimiento (fNacimiento);

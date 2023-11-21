@@ -1,7 +1,20 @@
 package view;
 
+import java.time.LocalDate;
+
+import io.IO;
+import model.Empleado;
+
 public class MetodosCRUD {
-	public static void insertarEmpleado() {}
+	public static Empleado insertarEmpleado() {
+		IO.print("Nombre?");
+		String nombre = IO.readString();
+		IO.print("Salario?");
+		Double salario = IO.readDouble();
+		IO.print("Fecha nacimiento ? (YYYY-MM-DD)");
+		LocalDate fechaNacimiento= IO.readLocalDate();
+		return new Empleado(nombre,salario,fechaNacimiento);
+	}
 	public static void modificarEmpleado() {}
 	public static void eliminarEmpleado() {}
 	public static void buscarCodEmpleado() {}
