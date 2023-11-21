@@ -17,18 +17,18 @@ public class Menu {
 		try {
 	        // Nuevo empleado
 	        Empleado empleado = new Empleado();
-	        empleado.setNombre("Cesar");
-	        LocalDate fecha = LocalDate.parse("2003-06-06");
+	        empleado.setNombre("Juan");
+	        LocalDate fecha = LocalDate.parse("2000-12-16");
 	        empleado.setFNacimiento(fecha);
 	        empleado.setSalario(1200.0);
 	        
 	        //Nuevo proyecto
 	        Proyecto proyecto = new Proyecto();
-	        proyecto.setNombre("Proyecto tortuga");
+	        proyecto.setNombre("Proyecto pingüino");
 	        
 	        //Nuevo departamento
 	        Departamento departamento = new Departamento();
-	        departamento.setNombre("Informática");
+	        departamento.setNombre("Informatica");
 	        
 	
 	        // Inicia una transacción
@@ -38,11 +38,14 @@ public class Menu {
 	        // Persiste el nuevo empleado en la base de datos
 	        em.persist(empleado);
 	        em.persist(proyecto);
+	        em.persist(departamento);
 	        
-	        departamento.addEmpleado(empleado);
-	        proyecto.addEmpleado(empleado);
+	        departamento.addJefe(empleado);
+	        empleado.addDepartamento(departamento);
+	        empleado.addProyecto(proyecto);
 	        
 	        em.persist(departamento);
+	        em.persist(empleado);
 	
 	        // Confirma la transacción
 	        transaction.commit();

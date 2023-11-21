@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "empleado")
+@EqualsAndHashCode(exclude = {"empleado", "jefe"})
 
 @Entity
 @Table(name = "departamentos")
@@ -24,16 +24,22 @@ public class Departamento {
 	// Relación 1-N con Empleado, un departamento puede tener muchos empleados
     @OneToMany(mappedBy="departamento")
 	private Set<Empleado> empleado = new HashSet<>();
-	
+    
+    @OneToOne//(mappedBy = "departamentoJefe")
+	private Empleado jefe;
+    
 	public Departamento(Integer id,String nombre) {
 		setId(id);
 		setNombre(nombre);
 	}
-	
+	/*
 	public void addEmpleado(Empleado e) {
 		this.getEmpleado().add(e);
 		e.setDepartamento(this);
 	}
-	
-
+	*/
+	public void addJefe(Empleado jefe) {
+		this.setJefe(jefe);
+		jefe.setDepartamento(this);
+	}
 }

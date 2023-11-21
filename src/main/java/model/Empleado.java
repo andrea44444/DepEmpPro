@@ -31,6 +31,9 @@ public class Empleado {
 	@ManyToOne
 	private Departamento departamento;
 	
+	@OneToOne(mappedBy = "jefe")
+    private Departamento departamentoJefe;
+	
 	@ManyToMany
 	@JoinTable(
 		    name = "empleado_proyecto",
@@ -51,7 +54,7 @@ public class Empleado {
 		d.getEmpleado().add(this);
 	}
 	
-	public void addProyectos(Proyecto p) {
+	public void addProyecto(Proyecto p) {
 		this.getProyecto().add(p);
 		p.getEmpleado().add(this);
 	}
