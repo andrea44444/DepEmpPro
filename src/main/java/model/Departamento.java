@@ -28,8 +28,7 @@ public class Departamento {
     @OneToOne//(mappedBy = "departamentoJefe")
 	private Empleado jefe;
     
-	public Departamento(Integer id,String nombre) {
-		setId(id);
+	public Departamento(String nombre) {
 		setNombre(nombre);
 	}
 	/*

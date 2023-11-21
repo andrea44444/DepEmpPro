@@ -55,16 +55,13 @@ public class Menu {
 			case 1:
 				switch (tipo) {
 				case 1:
-					transaction.begin();
-					Empleado empleado = MetodosCRUD.insertarEmpleado();
-					em.persist(empleado);
-					transaction.commit();
+					MetodosCRUD.insertarEmpleado(em,transaction);
 					break;
 				case 2:
-					MetodosCRUD.insertarDepartamento();
+					MetodosCRUD.insertarDepartamento(em,transaction);
 					break;
 				case 3:
-					MetodosCRUD.insertarProyecto();
+					MetodosCRUD.insertarProyecto(em,transaction);
 					break;
 				}
 				break;
@@ -98,13 +95,13 @@ public class Menu {
 			case 4:
 				switch (tipo) {
 				case 1:
-					MetodosCRUD.buscarCodEmpleado();
+					MetodosCRUD.buscarCodUsuario(Empleado.class, em);
 					break;
 				case 2:
-					MetodosCRUD.buscarCodDepartamento();
+					MetodosCRUD.buscarCodUsuario(Departamento.class, em);
 					break;
 				case 3:
-					MetodosCRUD.buscarCodProyecto();
+					MetodosCRUD.buscarCodUsuario(Proyecto.class, em);
 					break;
 				}
 				break;

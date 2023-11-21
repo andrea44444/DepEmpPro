@@ -39,8 +39,7 @@ public class Proyecto {
 	    )
 	private Set<Empleado> empleado = new HashSet<>();
 
-	public Proyecto(Integer id, String nombre) {
-		setId(id);
+	public Proyecto(String nombre) {
 		setNombre(nombre);
 	}
 	
