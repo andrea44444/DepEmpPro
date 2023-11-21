@@ -30,11 +30,6 @@ public class MetodosCRUD {
 		return em.find(clase, id);
 	}
 	
-	public static <T> T buscarCodUsuario(Class<T> clase, EntityManager em) {
-		IO.print("Cod?");
-		return buscarCod(IO.readInt(),clase,em);
-	}
-	
 	public static void buscarNomEmpleado() {}
 	
 	

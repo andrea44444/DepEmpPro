@@ -95,13 +95,19 @@ public class Menu {
 			case 4:
 				switch (tipo) {
 				case 1:
-					MetodosCRUD.buscarCodUsuario(Empleado.class, em);
+					IO.println("Cod?");
+					Empleado empleado = MetodosCRUD.buscarCod(IO.readInt(),Empleado.class, em);
+					IO.println(empleado.getNombre());
 					break;
 				case 2:
-					MetodosCRUD.buscarCodUsuario(Departamento.class, em);
+					IO.println("Cod?");
+					Departamento departamento = MetodosCRUD.buscarCod(IO.readInt(),Departamento.class, em);
+					IO.println(departamento.getNombre());
 					break;
 				case 3:
-					MetodosCRUD.buscarCodUsuario(Proyecto.class, em);
+					IO.println("Cod?");
+					Proyecto proyecto = MetodosCRUD.buscarCod(IO.readInt(),Proyecto.class, em);
+					IO.println(proyecto.getNombre());
 					break;
 				}
 				break;
