@@ -43,11 +43,4 @@ public class Proyecto {
 		setNombre(nombre);
 	}
 	
-	
-	/*
-	public void addEmpleado(Empleado e) {
-		 e.getProyecto().add(this);
-		 this.getEmpleado().add(e);
-	}
-	*/
 }

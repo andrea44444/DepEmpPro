@@ -53,8 +53,20 @@ public class Empleado {
 		d.getEmpleado().add(this);
 	}
 	
+	public void salirDelDepartamento() {
+		Departamento departamentoActual = this.getDepartamento();
+	    if (departamentoActual != null) {
+	        departamentoActual.getEmpleado().remove(this);
+	    }
+	}
+	
 	public void addProyecto(Proyecto p) {
-		this.getProyecto().add(p);
+		//this.getProyecto().add(p);  si pongo esto me lo añade dos veces
 		p.getEmpleado().add(this);
+	}
+	
+	public void salirDelProyecto(Proyecto p) {
+		this.getProyecto().remove(p);
+		//p.getEmpleado().remove(this);   da error intentar borrar asi
 	}
 }

@@ -31,7 +31,7 @@ import java.util.UUID;
  * <li>double
  * <li>boolean (true, false)
  * <li>char
- * <li>LocarDate
+ * <li>LocalDate
  * <li>UUID
  * <li>String (admite tira vacía)
  * </ul>

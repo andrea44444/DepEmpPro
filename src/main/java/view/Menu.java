@@ -13,12 +13,14 @@ import model.Proyecto;
 public class Menu {
 
 	public static void main(String[] args) {
+		
+		//Mostrar, modificar jefe, cambiar find, dividir crud
 		EntityManager em = Controlador.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
 		
 		try {
 			List<String> opciones = List
-					.of("1. Modificar empleado\n" + "2. Modificar departamento\n" + "3. Modificar proyecto\n" + "4. Salir");
+					.of("1. Empleado\n" + "2. Departamento\n" + "3. Proyecto\n" + "4. Salir");
 			while (true) {
 				System.out.println(opciones);
 				switch (IO.readInt()) {
@@ -39,6 +41,7 @@ public class Menu {
 			if (transaction.isActive()) {
 	            transaction.rollback();
 	        }
+			IO.println("ERROR");
 	        e.printStackTrace();
 		} finally {
 			em.close(); 
@@ -68,13 +71,13 @@ public class Menu {
 			case 2:
 				switch (tipo) {
 				case 1:
-					MetodosCRUD.modificarEmpleado();
+					MetodosCRUD.modificarEmpleado(em,transaction);
 					break;
 				case 2:
-					MetodosCRUD.modificarDepartamento();
+					MetodosCRUD.modificarDepartamento(em,transaction);
 					break;
 				case 3:
-					MetodosCRUD.modificarProyecto();
+					MetodosCRUD.modificarProyecto(em,transaction);
 					break;
 				}
 				break;
@@ -82,7 +85,7 @@ public class Menu {
 				switch (tipo) {
 				case 1:
 					
-					MetodosCRUD.eliminarEmpleado();
+					MetodosCRUD.eliminarEmpleado(em,transaction);
 					break;
 				case 2:
 					MetodosCRUD.eliminarDepartamento();
@@ -114,13 +117,25 @@ public class Menu {
 			case 5:
 				switch (tipo) {
 				case 1:
-					MetodosCRUD.buscarNomEmpleado();
+					IO.println("Nombre?");
+					List<Empleado> listaEmpleados = MetodosCRUD.buscarPorNombre(IO.readString(),Empleado.class, em);
+					for (Empleado empleado : listaEmpleados) {
+						IO.println(empleado.getId());
+					}
 					break;
 				case 2:
-					MetodosCRUD.buscarNomDepartamento();
+					IO.println("Nombre?");
+					List<Departamento> listaDepartamentos = MetodosCRUD.buscarPorNombre(IO.readString(),Departamento.class, em);
+					for (Departamento departamento : listaDepartamentos) {
+						IO.println(departamento.getId());
+					}
 					break;
 				case 3:
-					MetodosCRUD.buscarNomProyecto();
+					IO.println("Nombre?");
+					List<Proyecto> listaProyectos = MetodosCRUD.buscarPorNombre(IO.readString(),Proyecto.class, em);
+					for (Proyecto proyecto : listaProyectos) {
+						IO.println(proyecto.getId());
+					}
 					break;
 				}
 				break;
@@ -129,51 +144,4 @@ public class Menu {
 			}
 		}
 	}
-	
-	/*
-	try {
-        // Nuevo empleado
-        Empleado empleado = new Empleado();
-        empleado.setNombre("Juan");
-        LocalDate fecha = LocalDate.parse("2000-12-16");
-        empleado.setFNacimiento(fecha);
-        empleado.setSalario(1200.0);
-        
-        //Nuevo proyecto
-        Proyecto proyecto = new Proyecto();
-        proyecto.setNombre("Proyecto pingüino");
-        
-        //Nuevo departamento
-        Departamento departamento = new Departamento();
-        departamento.setNombre("Informatica");
-        
-
-        // Inicia una transacción
-        transaction.begin();
-        
-
-        // Persiste el nuevo empleado en la base de datos
-        em.persist(empleado);
-        em.persist(proyecto);
-        em.persist(departamento);
-        
-        departamento.addJefe(empleado);
-        empleado.addDepartamento(departamento);
-        empleado.addProyecto(proyecto);
-        
-        em.persist(departamento);
-        em.persist(empleado);
-
-        // Confirma la transacción
-        transaction.commit();
-	}catch(Exception e) {
-		if (transaction.isActive()) {
-            transaction.rollback();
-        }
-        e.printStackTrace();
-	} finally {
-		em.close(); // Asegura que se cierre el EntityManager en caso de un error
-		// Cierra el EntityManager
-		Controlador.closeEntityManagerFactory();
-	}*/
 }
