@@ -130,8 +130,12 @@ public class MetodosCRUD {
         	//eliminarlo si formaba parte de algun proyecto
         	empleado.getProyecto().forEach(proyecto -> {    
         		empleado.salirDelProyecto(proyecto);
+        		System.out.println("ss");
+        		IO.readString();
         	});
+        	transaction.commit();
         	
+        	transaction.begin();
         	em.remove(empleado);
         	transaction.commit();
             System.out.println("Empleado eliminado exitosamente.");
