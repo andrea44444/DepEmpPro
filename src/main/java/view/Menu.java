@@ -15,6 +15,7 @@ public class Menu {
 	public static void main(String[] args) {
 		
 		//Mostrar, modificar jefe, cambiar find, dividir crud
+		//cONTROLAR QUE NO PUEDES MODIFICAR EL DEPARTAMENTO DE UN EMPLEADO SI ES JEFE DE UNO
 		EntityManager em = Controlador.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
 		

@@ -38,13 +38,14 @@ public class Departamento {
 	
 	public void addJefe(Empleado jefe) {
 		this.setJefe(jefe);
+		jefe.setDepartamentoJefe(this);
 		jefe.setDepartamento(this);
 	}
 	
 	public void deleteJefe(Empleado jefe) {
-		if (jefe != null && jefe.getDepartamento() != null && jefe.getDepartamento().getJefe() != null) {
-	        Departamento departamentoJefeActual = jefe.getDepartamento();
-	        departamentoJefeActual.setJefe(null);
+		if (jefe.getDepartamento() != null && jefe.getDepartamento().getJefe() != null) {
+			jefe.getDepartamentoJefe().setJefe(null);
+			jefe.salirDelDepartamento();
 	    }
 	}
 }

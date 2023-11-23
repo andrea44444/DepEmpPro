@@ -185,7 +185,8 @@ public class MetodosCRUD {
                     departamento.deleteJefe(nuevoJefe); 
                     em.merge(departamento);
                     transaction.commit();
-                    
+                System.out.println("seguir?");
+                IO.readString();
                     transaction.begin();
                     departamento.addJefe(nuevoJefe);
                     em.merge(departamento);
