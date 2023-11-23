@@ -125,6 +125,13 @@ public class MetodosCRUD {
         if (empleado != null) {
         	//
         	transaction.begin();
+        	//Poner a null si era jefe de algun departamento
+        	empleado.getDepartamentoJefe().deleteJefe(empleado);
+        	//eliminarlo si formaba parte de algun proyecto
+        	empleado.getProyecto().forEach(proyecto -> {    
+        		empleado.salirDelProyecto(proyecto);
+        	});
+        	
         	em.remove(empleado);
         	transaction.commit();
             System.out.println("Empleado eliminado exitosamente.");

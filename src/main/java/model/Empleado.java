@@ -57,6 +57,7 @@ public class Empleado {
 		Departamento departamentoActual = this.getDepartamento();
 	    if (departamentoActual != null) {
 	        departamentoActual.getEmpleado().remove(this);
+	        departamentoActual.deleteJefe(this);
 	    }
 	}
 	
