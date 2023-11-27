@@ -175,7 +175,22 @@ public class OperacionesEmpleado implements OperacionesCRUD{
 	            IO.println(empleado.toString());
 	        }
 	    } else {
-	        IO.println("No se encontró ningún proyecto con el nombre proporcionado.");
+	        IO.println("No se encontró ningún empleado con el nombre proporcionado.");
+	    }
+    }
+    
+    @Override
+	public void mostrar(EntityManager em) {
+    	TypedQuery<Empleado> query = em.createQuery("SELECT e FROM Empleado e", Empleado.class);
+		
+		List<Empleado> empleados = query.getResultList();
+
+	    if (!empleados.isEmpty()) {
+	        for (Empleado empleado : empleados) {
+	            IO.println(empleado.toString());
+	        }
+	    } else {
+	        IO.println("No se encontraron datos que mostrar");
 	    }
     }
 }

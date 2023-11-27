@@ -67,13 +67,11 @@ public class Empleado {
 	}
     
 	public void addProyecto(Proyecto p) {
-		//this.getProyecto().add(p);  si pongo esto me lo añade dos veces
 		p.getEmpleado().add(this);
 	}
 	
 	public void salirDelProyecto(Proyecto p) {
 		this.getProyecto().remove(p);
-		//p.getEmpleado().remove(this);   da error intentar borrar asi
 	}
 
 	@Override

@@ -117,7 +117,22 @@ public class OperacionesDepartamento implements OperacionesCRUD{
 	            IO.println(departamento.toString());
 	        }
 	    } else {
-	        IO.println("No se encontró ningún proyecto con el nombre proporcionado.");
+	        IO.println("No se encontró ningún departamento con el nombre proporcionado.");
+	    }
+	}
+	
+	@Override
+	public void mostrar(EntityManager em) {
+		TypedQuery<Departamento> query = em.createQuery("SELECT d FROM Departamento d", Departamento.class);
+		
+		List<Departamento> departamentos = query.getResultList();
+
+	    if (!departamentos.isEmpty()) {
+	        for (Departamento departamento : departamentos) {
+	            IO.println(departamento.toString());
+	        }
+	    } else {
+	        IO.println("No se encontraron datos que mostrar");
 	    }
 	}
 

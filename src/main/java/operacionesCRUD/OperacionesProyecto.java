@@ -95,5 +95,21 @@ public class OperacionesProyecto implements OperacionesCRUD{
 	        IO.println("No se encontró ningún proyecto con el nombre proporcionado.");
 	    }
 	}
+	
+	@Override
+	public void mostrar(EntityManager em) {
+		TypedQuery<Proyecto> query = em.createQuery("SELECT p FROM Proyecto p", Proyecto.class);
+
+		List<Proyecto> proyectos = query.getResultList();
+
+		if (!proyectos.isEmpty()) {
+			for (Proyecto proyecto : proyectos) {
+				IO.println(proyecto.toString());
+			}
+		} else {
+			IO.println("No se encontraron datos que mostrar");
+		}
+
+	}
 
 }

@@ -12,7 +12,6 @@ public class Menu {
 
 	public static void main(String[] args) {
 		
-		//un mostrar 
 		EntityManager em = Controlador.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
 		
@@ -43,7 +42,6 @@ public class Menu {
 			if (transaction.isActive()) {
 	            transaction.rollback();
 	        }
-			IO.println("ERROR");
 	        e.printStackTrace();
 		} finally {
 			em.close(); 
@@ -52,8 +50,14 @@ public class Menu {
 	}
 
 	private static void menu (int tipo, EntityTransaction transaction, EntityManager em, OperacionesCRUD empleado, OperacionesCRUD depa, OperacionesCRUD proy) {
-		List<String> opciones = List.of("1. Insertar\n" + "2. Modificar\n" + "3. Eliminar\n" + "4. Buscar por codigo\n"
-				+ "5. Buscar por nombre\n" + "6. Salir\n");
+		List<String> opciones = List.of(
+				"1. Insertar\n" + 
+				"2. Modificar\n" + 
+				"3. Eliminar\n" + 
+				"4. Buscar por codigo\n" + 
+				"5. Buscar por nombre\n" + 
+				"6. Mostrar\n" + 
+				"7. Salir\n");
 		while (true) {
 			System.out.println(opciones);
 			switch (IO.readInt()) {
@@ -123,6 +127,19 @@ public class Menu {
 				}
 				break;
 			case 6:
+				switch (tipo) {
+				case 1:
+					empleado.mostrar(em);
+					break;
+				case 2:
+					depa.mostrar(em);
+					break;
+				case 3:
+					proy.mostrar(em);
+					break;
+				}
+				break;
+			case 7:
 				return;
 			}
 		}

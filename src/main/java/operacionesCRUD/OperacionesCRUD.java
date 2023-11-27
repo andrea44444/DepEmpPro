@@ -14,4 +14,6 @@ public interface OperacionesCRUD {
     void buscarPorCodigo(EntityManager em);
     
     void buscarPorNombre(EntityManager em);
+    
+    void mostrar(EntityManager em);
 }
