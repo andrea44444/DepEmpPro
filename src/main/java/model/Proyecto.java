@@ -42,5 +42,11 @@ public class Proyecto {
 	public Proyecto(String nombre) {
 		setNombre(nombre);
 	}
+
+	@Override
+	public String toString() {
+		return "Proyecto [id=" + id + ", nombre=" + nombre + "]";
+	}
+	
 	
 }

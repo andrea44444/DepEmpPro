@@ -92,7 +92,6 @@ public class MetodosCRUD {
             		IO.println("Id del proyecto?");
 	            	int idProyecto = IO.readInt();
 	            	Proyecto proyecto = em.find(Proyecto.class, idProyecto);
-	            	//System.out.println("proyecto ->"+proyecto);
 	            	if(proyecto != null) {
 	            		transaction.begin();
 	            		if(eleccion == 1) {
@@ -123,15 +122,19 @@ public class MetodosCRUD {
         Empleado empleado = em.find(Empleado.class, id);
 
         if (empleado != null) {
-        	//
+        	
         	transaction.begin();
         	//Poner a null si era jefe de algun departamento
-        	empleado.getDepartamentoJefe().deleteJefe(empleado);
+        	if(empleado.getDepartamento().getJefe() == empleado) {
+        		empleado.getDepartamento().deleteJefe(empleado);
+        	}
+        	
+        	// Quitar empleado del departamento
+            empleado.salirDelDepartamento();
+        	
         	//eliminarlo si formaba parte de algun proyecto
         	empleado.getProyecto().forEach(proyecto -> {    
         		empleado.salirDelProyecto(proyecto);
-        		System.out.println("ss");
-        		IO.readString();
         	});
         	transaction.commit();
         	
@@ -144,18 +147,33 @@ public class MetodosCRUD {
         }
 	}
 	
-	public static <T> T buscarCod(int id, Class<T> clase, EntityManager em) {
-		return em.find(clase, id);
+	public static void buscarCodEmpleado(EntityManager em) {
+		IO.println("Cod?");
+		Empleado empleado = em.find(Empleado.class, IO.readInt());
+		if(empleado != null) {
+			IO.println(empleado.toString());
+		}else {
+			IO.println("No se encontró un empleado con el ID proporcionado.");
+		}
 	}
 	
-	public static <T> List<T> buscarPorNombre(String nombre, Class<T> clase, EntityManager em) {
-	    String query = "SELECT e FROM " + clase.getSimpleName() + " e WHERE e.nombre = :nombre";
-	    TypedQuery<T> typedQuery = em.createQuery(query, clase);
-	    typedQuery.setParameter("nombre", nombre);
-	    return typedQuery.getResultList();
+	public static void buscarNomEmpleado(EntityManager em) {
+		IO.println("Nombre del empleado?");
+	    String nombre = IO.readString();
+
+	    TypedQuery<Empleado> query = em.createQuery("SELECT p FROM Empleado p WHERE p.nombre LIKE :nombre", Empleado.class);
+	    query.setParameter("nombre", "%" + nombre + "%");
+
+	    List<Empleado> empleados = query.getResultList();
+
+	    if (!empleados.isEmpty()) {
+	        for (Empleado empleado : empleados) {
+	            IO.println(empleado.toString());
+	        }
+	    } else {
+	        IO.println("No se encontró ningún proyecto con el nombre proporcionado.");
+	    }
 	}
-	
-	public static void buscarNomEmpleado() {}
 	
 	
 	//DEPARTAMENTO
@@ -196,8 +214,7 @@ public class MetodosCRUD {
                     departamento.deleteJefe(nuevoJefe); 
                     em.merge(departamento);
                     transaction.commit();
-                System.out.println("seguir?");
-                IO.readString();
+                
                     transaction.begin();
                     departamento.addJefe(nuevoJefe);
                     em.merge(departamento);
@@ -213,8 +230,56 @@ public class MetodosCRUD {
             IO.println("No se encontró un departamento con el ID proporcionado.");
         }
 	}
-	public static void eliminarDepartamento() {}
-	public static void buscarNomDepartamento() {}
+	public static void eliminarDepartamento(EntityManager em, EntityTransaction transaction) {
+		IO.print("Id?");
+        Integer id = IO.readInt();
+
+        Departamento departamento = em.find(Departamento.class, id);
+
+        if (departamento != null) {
+        	transaction.begin();
+        	//Eliminar rastros del departamento en la tabla empleados
+        	departamento.getEmpleados().forEach(empleado -> {
+        	    empleado.salirDelDepartamento();
+        	});
+        	transaction.commit();
+        	
+        	transaction.begin();
+        	em.remove(departamento);
+        	transaction.commit();
+            System.out.println("Departamento eliminado exitosamente.");
+        } else {
+        	IO.println("No se encontró un departamento con el ID proporcionado.");
+        }
+	}
+	
+	public static void buscarCodDepartamento(EntityManager em) {
+		IO.println("Cod?");
+		Departamento departamento = em.find(Departamento.class, IO.readInt());
+		if(departamento != null) {
+			IO.println(departamento.toString());
+		}else {
+			IO.println("No se encontró un departamento con el ID proporcionado.");
+		}
+	}
+	
+	public static void buscarNomDepartamento(EntityManager em) {
+		IO.println("Nombre del departamento?");
+	    String nombre = IO.readString();
+
+	    TypedQuery<Departamento> query = em.createQuery("SELECT p FROM Departamento p WHERE p.nombre LIKE :nombre", Departamento.class);
+	    query.setParameter("nombre", "%" + nombre + "%");
+
+	    List<Departamento> departamentos = query.getResultList();
+
+	    if (!departamentos.isEmpty()) {
+	        for (Departamento departamento : departamentos) {
+	            IO.println(departamento.toString());
+	        }
+	    } else {
+	        IO.println("No se encontró ningún proyecto con el nombre proporcionado.");
+	    }
+	}
 	
 	
 	//PROYECTO
@@ -248,6 +313,53 @@ public class MetodosCRUD {
         }
 	}
 	
-	public static void eliminarProyecto() {}
-	public static void buscarNomProyecto() {}
+	public static void eliminarProyecto(EntityManager em, EntityTransaction transaction) {
+		IO.print("Id?");
+        Integer id = IO.readInt();
+
+        Proyecto proyecto = em.find(Proyecto.class, id);
+
+        if (proyecto != null) {
+        	transaction.begin();
+        	//Eliminar rastros del proyecto en la tabla empleados
+        	proyecto.getEmpleado().forEach(empleado -> {
+        	    empleado.salirDelProyecto(proyecto);
+        	});
+        	transaction.commit();
+        	
+        	transaction.begin();
+        	em.remove(proyecto);
+        	transaction.commit();
+            System.out.println("Proyecto eliminado exitosamente.");
+        } else {
+        	IO.println("No se encontró un proyecto con el ID proporcionado.");
+        }
+	}
+	
+	public static void buscarCodProyecto(EntityManager em) {
+		IO.println("Cod?");
+		Proyecto proyecto = em.find(Proyecto.class, IO.readInt());
+		if(proyecto != null) {
+			IO.println(proyecto.toString());
+		}else {
+			IO.println("No se encontró un proyecto con el ID proporcionado.");
+		}
+	}
+	public static void buscarNomProyecto(EntityManager em) {
+		IO.println("Nombre del proyecto?");
+	    String nombre = IO.readString();
+
+	    TypedQuery<Proyecto> query = em.createQuery("SELECT p FROM Proyecto p WHERE p.nombre LIKE :nombre", Proyecto.class);
+	    query.setParameter("nombre", "%" + nombre + "%");
+
+	    List<Proyecto> proyectos = query.getResultList();
+
+	    if (!proyectos.isEmpty()) {
+	        for (Proyecto proyecto : proyectos) {
+	            IO.println(proyecto.toString());
+	        }
+	    } else {
+	        IO.println("No se encontró ningún proyecto con el nombre proporcionado.");
+	    }
+	}
 }

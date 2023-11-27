@@ -6,16 +6,12 @@ import controlador.Controlador;
 import io.IO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
-import model.Departamento;
-import model.Empleado;
-import model.Proyecto;
 
 public class Menu {
 
 	public static void main(String[] args) {
 		
-		//Mostrar, modificar jefe, cambiar find, dividir crud
-		//si un jefe modifica su departamento deja de ser jefe
+		//Dividir MetodosCRUD y un mostrar 
 		EntityManager em = Controlador.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
 		
@@ -89,54 +85,36 @@ public class Menu {
 					MetodosCRUD.eliminarEmpleado(em,transaction);
 					break;
 				case 2:
-					MetodosCRUD.eliminarDepartamento();
+					MetodosCRUD.eliminarDepartamento(em,transaction);
 					break;
 				case 3:
-					MetodosCRUD.eliminarProyecto();
+					MetodosCRUD.eliminarProyecto(em,transaction);
 					break;
 				}
 				break;
 			case 4:
 				switch (tipo) {
 				case 1:
-					IO.println("Cod?");
-					Empleado empleado = MetodosCRUD.buscarCod(IO.readInt(),Empleado.class, em);
-					IO.println(empleado.getNombre());
+					MetodosCRUD.buscarCodEmpleado(em);
 					break;
 				case 2:
-					IO.println("Cod?");
-					Departamento departamento = MetodosCRUD.buscarCod(IO.readInt(),Departamento.class, em);
-					IO.println(departamento.getNombre());
+					MetodosCRUD.buscarCodDepartamento(em);
 					break;
 				case 3:
-					IO.println("Cod?");
-					Proyecto proyecto = MetodosCRUD.buscarCod(IO.readInt(),Proyecto.class, em);
-					IO.println(proyecto.getNombre());
+					MetodosCRUD.buscarCodProyecto(em);
 					break;
 				}
 				break;
 			case 5:
 				switch (tipo) {
 				case 1:
-					IO.println("Nombre?");
-					List<Empleado> listaEmpleados = MetodosCRUD.buscarPorNombre(IO.readString(),Empleado.class, em);
-					for (Empleado empleado : listaEmpleados) {
-						IO.println(empleado.getId());
-					}
+					MetodosCRUD.buscarNomEmpleado(em);
 					break;
 				case 2:
-					IO.println("Nombre?");
-					List<Departamento> listaDepartamentos = MetodosCRUD.buscarPorNombre(IO.readString(),Departamento.class, em);
-					for (Departamento departamento : listaDepartamentos) {
-						IO.println(departamento.getId());
-					}
+					MetodosCRUD.buscarNomDepartamento(em);
 					break;
 				case 3:
-					IO.println("Nombre?");
-					List<Proyecto> listaProyectos = MetodosCRUD.buscarPorNombre(IO.readString(),Proyecto.class, em);
-					for (Proyecto proyecto : listaProyectos) {
-						IO.println(proyecto.getId());
-					}
+					MetodosCRUD.buscarNomProyecto(em);
 					break;
 				}
 				break;
